@@ -19,6 +19,7 @@
         <jbcrypt.version>0.4</jbcrypt.version>
         <quarkus-langchain4j-openai.version>1.13.1</quarkus-langchain4j-openai.version>
         <assertj.version>3.27.7</assertj.version>
+        <quarkus-flow.version>1.4.0</quarkus-flow.version>
     </properties>
 
     <dependencyManagement>
@@ -34,6 +35,13 @@
                 <groupId>io.quarkus.platform</groupId>
                 <artifactId>quarkus-amazon-services-bom</artifactId>
                 <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkiverse.flow</groupId>
+                <artifactId>quarkus-flow-bom</artifactId>
+                <version>${quarkus-flow.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -102,6 +110,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-health</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.flow</groupId>
+            <artifactId>quarkus-flow</artifactId>
         </dependency>
         <!-- test dependencies -->
         <dependency>
