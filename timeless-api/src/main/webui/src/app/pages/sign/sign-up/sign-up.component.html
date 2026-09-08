@@ -47,6 +47,7 @@
     <p-inputMask
       id="phone_number"
       styleClass="w-full text-center font-medium"
+      size="small"
       mask="(99) 99999-9999"
       formControlName="phoneNumber"
       autocomplete="off"
@@ -71,6 +72,8 @@
     label="Cadastrar"
     severity="primary"
     size="small"
+    [loading]="submitting"
+    [disabled]="submitting"
   ></p-button>
   <p class="text-xs text-center font-extralight">
     Já possui uma conta? Clique

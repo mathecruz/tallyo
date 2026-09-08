@@ -11,7 +11,7 @@ import { InputText } from 'primeng/inputtext';
 import { Router, RouterLink } from '@angular/router';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TimelessApiService } from '../../../timeless-api.service';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, EMPTY, finalize } from 'rxjs';
 import { ToastService } from '../../../services/toast.service';
 import { InputMask } from 'primeng/inputmask';
 
@@ -31,6 +31,7 @@ import { InputMask } from 'primeng/inputmask';
 })
 export class SignUpComponent {
   formBuilder = inject(FormBuilder);
+  submitting = false;
   form: FormGroup = this.formBuilder.group({
     email: ['', [Validators.email, Validators.required]],
     password: [
@@ -49,7 +50,12 @@ export class SignUpComponent {
   ) {}
 
   onSubmit() {
+    if (this.submitting) {
+      return;
+    }
+
     if (this.form.valid) {
+      this.submitting = true;
       this.timelessApiService
         .signUp(this.form.value)
         .pipe(
@@ -58,6 +64,9 @@ export class SignUpComponent {
               this.toast.error('Conflito', err.error.message);
             }
             return EMPTY;
+          }),
+          finalize(() => {
+            this.submitting = false;
           }),
         )
         .subscribe((_) => {
