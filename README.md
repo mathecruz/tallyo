@@ -1,14 +1,18 @@
-# 🕰️ Tallyo
+<p align="center">
+  <img src="tallyo-api/src/main/webui/public/brandmarker.svg" alt="tallyo" width="360" />
+</p>
+
+# Tallyo
 
 Do you often make purchases and forget to write them down? **Tallyo** is a project designed to help you by automatically detecting purchase-related messages on WhatsApp and registering that data in the **Tallyo** app — your personal financial organization hub.
 
 See our landing page: [**https://tallyo.platformoon.com**](https://tallyo.platformoon.com)
 
-## ✨ Overview
+## Overview
 
 This application monitors WhatsApp messages for signs of purchases (such as receipts, audio messages, transfers), extracts relevant information (amounts, descriptions), and automatically sends it to **Tallyo**, helping you keep your finances organized — effortlessly.
 
-## ⚠️ Project Intent
+## Project Intent
 
 Tallyo is primarily an educational project built to explore the intersection of automated messaging, NLP, and cloud infrastructure. While it mimics real-world financial tracking systems, its core goal is to demonstrate:
 
@@ -16,7 +20,7 @@ Tallyo is primarily an educational project built to explore the intersection of 
 * **Continuous Improvement**: The codebase is designed to evolve. We encourage experiments with local LLMs and different cloud providers.
 * **Learning by Doing**: This is a sandbox for implementing "real-world" logic in a controlled environment. Feel free to refactor, break, and improve!
 
-## 🤝 How to Contribute
+## How to Contribute
 
 We love community contributions! Whether you're fixing a bug or adding a feature, getting involved in Open Source is a fantastic way to learn and grow.
 
@@ -27,20 +31,20 @@ We love community contributions! Whether you're fixing a bug or adding a feature
    [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mathecruz/tallyo)
 
 
-## 🚀 Features
+## Features
 
-- 📩 Automatic reading of WhatsApp messages
-- 🧠 Smart extraction of purchase data using NLP (Natural Language Processing)
-- 📤 Automatic registration of purchases in Tallyo (via API)
+- Automatic reading of WhatsApp messages
+- Smart extraction of purchase data using NLP (Natural Language Processing)
+- Automatic registration of purchases in Tallyo (via API)
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **Java + Quarkus** (tallyo-api)
 - **Quinoa + Angular** (frontend)
 - **Langchain4j + OpenAI Whisper** (audio transcription and analysis)
 - **NodeJS + whatsapp-web.js** (whatsapp)
 
-## 💡 How It Works
+## How It Works
 
 1. You send a message/audio/image on WhatsApp:  
    `"Transfer of R$ 120.00 successfully made to Mercadinho da Vila."`

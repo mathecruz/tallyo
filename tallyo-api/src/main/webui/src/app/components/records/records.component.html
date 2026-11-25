@@ -1,5 +1,5 @@
 <div class="flex flex-row gap-2 items-center my-2">
-  <h2 class="font-semibold text-2xl">Overview</h2>
+  <h2 class="font-semibold text-2xl">Visão geral</h2>
   <div class="flex flex-row gap-2 w-full items-center">
     <p-button
       [icon]="eyes() ? 'pi pi-eye-slash' : 'pi pi-eye'"
@@ -10,41 +10,47 @@
   </div>
 </div>
 
-<div class="flex flex-col md:flex-row gap-2">
-  <p-card styleClass="p-2 min-w-[200px] h-[100px]">
-    <ng-template #header><p class="font-extralight">Saldo</p></ng-template>
+<div class="flex flex-col md:flex-row gap-4 mb-4">
+  <p-card styleClass="px-4 min-w-[200px] flex-1">
+    <ng-template #header
+      ><p class="text-sm text-surface-500 pt-4">Saldo</p></ng-template
+    >
 
     @if (eyes()) {
-      <p class="flex-1 text-base font-semibold text-left">
+      <p class="flex-1 text-xl font-semibold text-left text-brand-navy">
         {{ balance() | currency: "BRL" }}
       </p>
     } @else {
-      <p class="flex-1 text-base font-light">••••••</p>
+      <p class="flex-1 text-xl font-light text-surface-400">••••••</p>
     }
   </p-card>
-  <p-card styleClass="p-2 min-w-[200px] h-[100px]">
-    <ng-template #header><p class="font-extralight">Entradas</p></ng-template>
+  <p-card styleClass="px-4 min-w-[200px] flex-1">
+    <ng-template #header
+      ><p class="text-sm text-surface-500 pt-4">Entradas</p></ng-template
+    >
     @if (eyes()) {
-      <p class="flex-1 text-base font-semibold text-left">
+      <p class="flex-1 text-xl font-semibold text-left text-brand-navy">
         {{ totalIn() | currency: "BRL" }}
       </p>
     } @else {
-      <p class="flex-1 text-base font-light">••••••</p>
+      <p class="flex-1 text-xl font-light text-surface-400">••••••</p>
     }
   </p-card>
-  <p-card styleClass="p-2 min-w-[200px] h-[100px]">
-    <ng-template #header><p class="font-extralight">Saídas</p></ng-template>
+  <p-card styleClass="px-4 min-w-[200px] flex-1">
+    <ng-template #header
+      ><p class="text-sm text-surface-500 pt-4">Saídas</p></ng-template
+    >
     @if (eyes()) {
-      <p class="flex-1 text-base font-semibold text-left">
+      <p class="flex-1 text-xl font-semibold text-left text-brand-navy">
         {{ totalExpenses() | currency: "BRL" }}
       </p>
     } @else {
-      <p class="flex-1 text-base font-light">••••••</p>
+      <p class="flex-1 text-xl font-light text-surface-400">••••••</p>
     }
   </p-card>
 </div>
 
-<p-table [value]="records" styleClass="my-2">
+<p-table [value]="records" styleClass="my-2 rounded-2xl overflow-hidden">
   <ng-template #header>
     <tr>
       <th class="text-sm">Valor</th>
