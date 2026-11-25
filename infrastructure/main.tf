@@ -1,25 +1,25 @@
 # S3 Bucket
-resource "aws_s3_bucket" "timeless_bucket" {
+resource "aws_s3_bucket" "tallyo_bucket" {
   bucket = var.bucket_assets_name
 }
 
-resource "aws_s3_bucket_acl" "timeless_bucket_acl" {
-  bucket = aws_s3_bucket.timeless_bucket.id
+resource "aws_s3_bucket_acl" "tallyo_bucket_acl" {
+  bucket = aws_s3_bucket.tallyo_bucket.id
   acl    = "private"
 }
 
 # IAM Users
-resource "aws_iam_user" "timeless_whatsapp_app" {
-  name = var.timeless_whatsapp_app_name
+resource "aws_iam_user" "tallyo_whatsapp_app" {
+  name = var.tallyo_whatsapp_app_name
 }
 
-resource "aws_iam_user" "timeless_api_app" {
-  name = var.timeless_api_app_name
+resource "aws_iam_user" "tallyo_api_app" {
+  name = var.tallyo_api_app_name
 }
 
 # IAM Policies
 
-resource "aws_iam_policy" "timeless_whatsapp_sqs_policy" {
+resource "aws_iam_policy" "tallyo_whatsapp_sqs_policy" {
   name = "AllowSendReceiveMessagePolicy"
   policy = jsonencode({
     Version = "2012-10-17",
@@ -45,8 +45,8 @@ resource "aws_iam_policy" "timeless_whatsapp_sqs_policy" {
   })
 }
 
-resource "aws_iam_policy" "timeless_api_sqs_policy" {
-  name = "AllowTimelessAPISendReceiveMessagePolicy"
+resource "aws_iam_policy" "tallyo_api_sqs_policy" {
+  name = "AllowTallyoAPISendReceiveMessagePolicy"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -72,7 +72,7 @@ resource "aws_iam_policy" "timeless_api_sqs_policy" {
 }
 
 resource "aws_iam_policy" "bucket_read_policy" {
-  name        = "TimelessAPIBucketReadAccessPolicy"
+  name        = "TallyoAPIBucketReadAccessPolicy"
   description = "Allows read access to ${var.bucket_assets_name} bucket"
   policy = jsonencode({
     Version = "2012-10-17",
@@ -82,14 +82,14 @@ resource "aws_iam_policy" "bucket_read_policy" {
         Action = [
           "s3:GetObject"
         ],
-        Resource = "${aws_s3_bucket.timeless_bucket.arn}/*"
+        Resource = "${aws_s3_bucket.tallyo_bucket.arn}/*"
       }
     ]
   })
 }
 
 resource "aws_iam_policy" "bucket_write_policy" {
-  name        = "TimelessWhatsappBucketWriteAccessPolicy"
+  name        = "TallyoWhatsappBucketWriteAccessPolicy"
   description = "Allows write access to ${var.bucket_assets_name} bucket"
   policy = jsonencode({
     Version = "2012-10-17",
@@ -101,7 +101,7 @@ resource "aws_iam_policy" "bucket_write_policy" {
           "s3:PutObjectAcl",
           "s3:DeleteObject"
         ],
-        Resource = "${aws_s3_bucket.timeless_bucket.arn}/*"
+        Resource = "${aws_s3_bucket.tallyo_bucket.arn}/*"
       }
     ]
   })
@@ -110,23 +110,23 @@ resource "aws_iam_policy" "bucket_write_policy" {
 # IAM User Policy Attachments
 
 resource "aws_iam_user_policy_attachment" "attach_bucket_write_policy" {
-  user       = aws_iam_user.timeless_whatsapp_app.name
+  user       = aws_iam_user.tallyo_whatsapp_app.name
   policy_arn = aws_iam_policy.bucket_write_policy.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_sqs_policy" {
-  user       = aws_iam_user.timeless_whatsapp_app.name
-  policy_arn = aws_iam_policy.timeless_whatsapp_sqs_policy.arn
+  user       = aws_iam_user.tallyo_whatsapp_app.name
+  policy_arn = aws_iam_policy.tallyo_whatsapp_sqs_policy.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_api_bucket_read_policy" {
-  user       = aws_iam_user.timeless_api_app.name
+  user       = aws_iam_user.tallyo_api_app.name
   policy_arn = aws_iam_policy.bucket_read_policy.arn
 }
 
 resource "aws_iam_user_policy_attachment" "attach_api_sqs_policy" {
-  user       = aws_iam_user.timeless_api_app.name
-  policy_arn = aws_iam_policy.timeless_api_sqs_policy.arn
+  user       = aws_iam_user.tallyo_api_app.name
+  policy_arn = aws_iam_policy.tallyo_api_sqs_policy.arn
 }
 
 
@@ -141,4 +141,35 @@ resource "aws_sqs_queue" "message_processed" {
   fifo_queue                  = true
   name                        = var.message_processed_queue_name
   content_based_deduplication = true
+}
+
+# Renamed from timeless_* to tallyo_* — keeps existing resources in state instead of recreating them
+moved {
+  from = aws_s3_bucket.timeless_bucket
+  to   = aws_s3_bucket.tallyo_bucket
+}
+
+moved {
+  from = aws_s3_bucket_acl.timeless_bucket_acl
+  to   = aws_s3_bucket_acl.tallyo_bucket_acl
+}
+
+moved {
+  from = aws_iam_user.timeless_whatsapp_app
+  to   = aws_iam_user.tallyo_whatsapp_app
+}
+
+moved {
+  from = aws_iam_user.timeless_api_app
+  to   = aws_iam_user.tallyo_api_app
+}
+
+moved {
+  from = aws_iam_policy.timeless_whatsapp_sqs_policy
+  to   = aws_iam_policy.tallyo_whatsapp_sqs_policy
+}
+
+moved {
+  from = aws_iam_policy.timeless_api_sqs_policy
+  to   = aws_iam_policy.tallyo_api_sqs_policy
 }

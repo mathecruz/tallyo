@@ -1,16 +1,16 @@
-name: Timeless CI - Build & Publish
+name: Tallyo CI - Build & Publish
 
 on:
   push:
     branches: [ "main" ]
     paths:
-      - 'timeless-api/**'
+      - 'tallyo-api/**'
       - 'whatsapp/**'
       - 'infrastructure/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'timeless-api/**'
+      - 'tallyo-api/**'
       - 'whatsapp/**'
       - 'infrastructure/**'
 
@@ -22,20 +22,20 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PUBLISH: ${{ github.repository == 'mcruzdev/timeless' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+  PUBLISH: ${{ github.repository == 'mathecruz/tallyo' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
 
 jobs:
   detect-changes:
     uses: ./.github/workflows/detect_changes.yml
 
-  timeless-api:
-    name: Build & Publish - Timeless API (Java)
+  tallyo-api:
+    name: Build & Publish - Tallyo API (Java)
     needs: detect-changes
     if: needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: timeless-api        
+        working-directory: tallyo-api        
 
     steps:
       - name: Checkout
@@ -56,10 +56,10 @@ jobs:
         with:
           node-version: "24"
           cache: npm
-          cache-dependency-path: timeless-api/src/main/webui/package-lock.json
+          cache-dependency-path: tallyo-api/src/main/webui/package-lock.json
 
       - name: Check code formatting with Prettier
-        working-directory: ./timeless-api/src/main/webui
+        working-directory: ./tallyo-api/src/main/webui
         run: npm run prettier:check
 
       - name: Set up Podman
@@ -77,11 +77,11 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/timeless/timeless-api:${GITHUB_SHA::7} .
+        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/tallyo/tallyo-api:${GITHUB_SHA::7} .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/timeless/timeless-api:${GITHUB_SHA::7}
+        run: docker push quay.io/tallyo/tallyo-api:${GITHUB_SHA::7}
 
   whatsapp:
     name: Build & Publish - WhatsApp Bot (Node.js)
@@ -119,8 +119,8 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f Dockerfile -t quay.io/timeless/whatsapp:${GITHUB_SHA::7} .
+        run: docker build -f Dockerfile -t quay.io/tallyo/whatsapp:${GITHUB_SHA::7} .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/timeless/whatsapp:${GITHUB_SHA::7}
+        run: docker push quay.io/tallyo/whatsapp:${GITHUB_SHA::7}
