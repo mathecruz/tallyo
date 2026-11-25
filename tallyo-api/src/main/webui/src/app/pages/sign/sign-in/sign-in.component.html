@@ -1,0 +1,43 @@
+<h1 class="text-xl font-semibold mb-1 text-center">Que bom ver você</h1>
+<p class="text-sm text-center mb-6">Entre para acompanhar suas finanças.</p>
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-col w-full gap-3"
+>
+  <p-float-label variant="in">
+    <input
+      id="email"
+      class="w-full"
+      type="text"
+      pSize="small"
+      pInputText
+      formControlName="email"
+      autocomplete="false"
+    />
+    <label for="email">Digite seu e-mail</label>
+  </p-float-label>
+  <p-float-label variant="in">
+    <input
+      id="password"
+      class="w-full"
+      type="password"
+      pSize="small"
+      pInputText
+      formControlName="password"
+      autocomplete="false"
+    />
+    <label for="password">Digite sua senha</label>
+  </p-float-label>
+  <p-button
+    [style]="{ width: '100%' }"
+    label="Entrar"
+    severity="primary"
+    size="small"
+    type="submit"
+  ></p-button>
+  <p class="text-sm text-center mt-2">
+    Não possui uma conta? Crie uma
+    <a [routerLink]="['sign-up']" class="primary-emphasis font-normal">aqui</a>.
+  </p>
+</form>

@@ -1,4 +1,4 @@
-name: Timeless CI - Publish Landing Page to Amazon S3
+name: Tallyo CI - Publish Landing Page to Amazon S3
 on:
   push:
     branches:
@@ -24,3 +24,7 @@ jobs:
       - name: Sync Landing Page to S3
         run: |
           aws s3 cp site/index.html s3://${{ secrets.LANDING_PAGE_S3_BUCKET }}/index.html
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.LANDING_PAGE_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/" "/index.html"

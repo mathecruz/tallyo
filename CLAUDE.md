@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | Directory | Purpose |
 |---|---|
-| `timeless-api/` | Java 21 / Quarkus 3 backend + Angular 19 frontend (served via Quinoa) |
+| `tallyo-api/` | Java 21 / Quarkus 3 backend + Angular 19 frontend (served via Quinoa) |
 | `whatsapp/` | Node.js service that bridges WhatsApp messages to the API via SQS |
 | `docker/` | Local-dev docker-compose (floci for SQS/S3, PostgreSQL, Ollama) |
 | `infrastructure/` | Terraform / AWS provisioning |
@@ -14,29 +14,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-### timeless-api (Java/Quarkus)
+### tallyo-api (Java/Quarkus)
 
 ```bash
 # Dev mode (hot reload) — requires OPENAI_API_KEY in application.properties
-cd timeless-api && ./mvnw quarkus:dev
+cd tallyo-api && ./mvnw quarkus:dev
 
 # Dev mode using local Ollama instead of OpenAI
-cd timeless-api && ./mvnw quarkus:dev -Pollama -Dquarkus.profile=local
+cd tallyo-api && ./mvnw quarkus:dev -Pollama -Dquarkus.profile=local
 
 # Clean, format, and run all tests (required before submitting a PR)
-cd timeless-api && ./mvnw clean package
+cd tallyo-api && ./mvnw clean package
 
 # Run a single test class
-cd timeless-api && ./mvnw test -Dtest=SignUpResourceTest
+cd tallyo-api && ./mvnw test -Dtest=SignUpResourceTest
 
 # Run a single test method
-cd timeless-api && ./mvnw test -Dtest=SignUpResourceTest#should_returnCreated_when_validSignUpRequestIsProvided
+cd tallyo-api && ./mvnw test -Dtest=SignUpResourceTest#should_returnCreated_when_validSignUpRequestIsProvided
 ```
 
 ### Frontend (Angular — inside Quinoa)
 
 ```bash
-cd timeless-api/src/main/webui
+cd tallyo-api/src/main/webui
 npm run prettier:write   # format check + apply
 ```
 
@@ -60,7 +60,7 @@ cd docker && docker-compose --profile ollama up -d
 
 ## CI pipeline
 
-CI runs on every push/PR to `main` when `timeless-api/`, `whatsapp/`, or `infrastructure/` change. Key differences from local dev:
+CI runs on every push/PR to `main` when `tallyo-api/`, `whatsapp/`, or `infrastructure/` change. Key differences from local dev:
 
 - **Java build uses check mode, not auto-format**: `mvn formatter:validate impsort:check package -Pollama` — this means CI will **fail** if formatting is wrong rather than fixing it. Run `./mvnw clean package` locally to auto-format before pushing.
 - **CI uses the `ollama` Maven profile** (`-Pollama`), so tests don't require an OpenAI API key.
@@ -74,7 +74,7 @@ The whatsapp service handles three input types with different processing paths:
 ```
 WhatsApp text → whatsapp/src/index.js → SQS (incoming FIFO queue)
                                               ↓ (polled every 5s)
-                              timeless-api/SQS.java → LangChain4j AI → DB
+                              tallyo-api/SQS.java → LangChain4j AI → DB
                                               ↓
                               SQS (recognized/processed FIFO queue)
                                               ↓
@@ -141,8 +141,8 @@ Maven profiles `openai` (active by default) and `ollama` control which LangChain
 
 | Variable | Used by | Notes |
 |---|---|---|
-| `OPENAI_API_KEY` | timeless-api, whatsapp | Required for OpenAI mode |
+| `OPENAI_API_KEY` | tallyo-api, whatsapp | Required for OpenAI mode |
 | `ALLOWED_PHONE_NUMBERS` | whatsapp `.env.local` | Comma-separated list of allowed numbers |
-| `SECURITY_KEY` | timeless-api | AES secret (base64); `%dev` defaults to `YS0xNi1ieXRlLXNlY3JldA==` |
-| `JWT_PUBLIC_KEY` / `JWT_PRIVATE_KEY` | timeless-api | SmallRye JWT keys — required only for the `prod`/`aws` profiles. `dev`/`local` use the bundled `publicKey.pem` / `privateKey.pem` under `src/main/resources` (dev-only throwaway keys). |
+| `SECURITY_KEY` | tallyo-api | AES secret (base64, 16/24/32 bytes). No default in any profile: set it in `tallyo-api/.env` for `dev`/`local` (e.g. `openssl rand -base64 16`); tests generate a random one via `RandomSecurityKeyConfigSource`. |
+| `JWT_PUBLIC_KEY` / `JWT_PRIVATE_KEY` | tallyo-api | SmallRye JWT keys — required only for the `prod`/`aws` profiles. `dev`/`local` configure no keys, so Quarkus generates a key pair on startup. |
 | `INCOMING_MESSAGE_FIFO_URL` / `RECOGNIZED_MESSAGE_FIFO_URL` | both services | SQS FIFO queue URLs |

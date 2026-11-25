@@ -1,0 +1,108 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="update()"
+  class="flex flex-col items-center p-4 md:p-8 w-full"
+>
+  <p-card header="Dados pessoais" class="w-full max-w-xl mx-auto">
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col">
+          <label
+            for="firstName"
+            class="text-sm font-medium text-brand-navy mb-1"
+            >First name</label
+          >
+          <input
+            pInputText
+            pSize="small"
+            id="firstName"
+            formControlName="firstName"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="lastName" class="text-sm font-medium text-brand-navy mb-1"
+            >Last name</label
+          >
+          <input
+            pInputText
+            pSize="small"
+            id="lastName"
+            formControlName="lastName"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col md:col-span-2">
+          <label for="email" class="text-sm font-medium text-brand-navy mb-1"
+            >Email</label
+          >
+          <input
+            pInputText
+            pSize="small"
+            id="email"
+            formControlName="email"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="password" class="text-sm font-medium text-brand-navy mb-1"
+            >Password</label
+          >
+          <input
+            pInputText
+            pSize="small"
+            [disabled]="true"
+            id="password"
+            type="password"
+            value="******"
+            class="w-full"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label
+            for="phoneNumber"
+            class="text-sm font-medium text-brand-navy mb-1"
+            >Phone number</label
+          >
+          <p-inputmask
+            mask="+55 (00) 00000-0000"
+            size="small"
+            placeholder="+55 (00) 00000-0000"
+            formControlName="phoneNumber"
+            styleClass="w-full"
+            inputStyleClass="w-full"
+          ></p-inputmask>
+        </div>
+
+        <div class="flex gap-4 mt-4 md:col-span-2 justify-center">
+          <button
+            pButton
+            severity="primary"
+            icon="pi pi-save"
+            size="small"
+            type="submit"
+            label="Salvar"
+            class="w-full"
+          ></button>
+
+          <button
+            pTooltip="Opção desabilitada, por enquanto você só pode alterar número de telefone."
+            disabled
+            class="w-full"
+            pButton
+            severity="contrast"
+            icon="pi pi-pencil"
+            size="small"
+            type="button"
+            label="Alterar Dados"
+            (click)="toggleEdit()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </p-card>
+</form>

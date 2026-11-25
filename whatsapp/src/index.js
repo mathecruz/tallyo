@@ -27,7 +27,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3")
 const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs")
 const { Consumer } = require("sqs-consumer")
 
-const timelessApiClient = require("./axios")
+const tallyoApiClient = require("./axios")
 const WAWebJS = require("whatsapp-web.js")
 
 const FLAGS = {
@@ -84,7 +84,7 @@ const getAllowedUsers = () =>
     process.env.ALLOWED_PHONE_NUMBERS.split(",").filter(Boolean)
 
 const client = new Client({
-    clientId: "timeless-bot",
+    clientId: "tallyo-bot",
     authStrategy: new LocalAuth({ dataPath: "wwebjs-auth" }),
     puppeteer: {
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -224,7 +224,7 @@ async function handleImageMessage(message, media) {
     const chat = await message.getChat()
 
     try {
-        const { data } = await timelessApiClient.post("/api/messages/image", {
+        const { data } = await tallyoApiClient.post("/api/messages/image", {
             from: contact.id.user,
             text: message.body,
             base64: media.data,
@@ -270,7 +270,7 @@ async function handleAudioMessage(message, media) {
     }
 
     try {
-        const { data } = await timelessApiClient.post("/api/messages", {
+        const { data } = await tallyoApiClient.post("/api/messages", {
             from: contact.id.user,
             message: transcription.text,
         })

@@ -1,0 +1,38 @@
+<p-toolbar
+  [style]="{
+    border: 'none',
+    'border-bottom': '1px solid var(--p-surface-200)',
+    'border-radius': 0,
+    padding: '0.75rem 1.5rem',
+  }"
+>
+  <ng-template #start>
+    <a [routerLink]="['/home']" class="flex items-center">
+      <img src="brandmarker.svg" alt="tallyo" class="h-9 w-auto" />
+    </a>
+  </ng-template>
+
+  <ng-template #end>
+    <p-button
+      label="Sair"
+      icon="pi pi-sign-out"
+      severity="secondary"
+      [outlined]="true"
+      size="small"
+      (click)="onLogout()"
+    />
+  </ng-template>
+</p-toolbar>
+<p-menubar
+  [model]="items"
+  [style]="{
+    border: 'none',
+    'border-radius': 0,
+    padding: '0.5rem 1rem',
+    background: 'transparent',
+  }"
+/>
+
+<main class="flex flex-col w-full max-w-6xl mx-auto h-full p-4 md:p-8">
+  <router-outlet></router-outlet>
+</main>

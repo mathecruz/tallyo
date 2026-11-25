@@ -8,5 +8,5 @@ ENDPOINT="http://localhost:4566"
 aws --endpoint-url "$ENDPOINT" sqs create-queue --queue-name incoming-message.fifo --attributes '{"FifoQueue": "True"}'
 aws --endpoint-url "$ENDPOINT" sqs create-queue --queue-name recognized-message.fifo --attributes '{"FifoQueue": "True"}'
 
-aws --endpoint-url "$ENDPOINT" s3api head-bucket --bucket timeless-local-assets 2>/dev/null \
-  || aws --endpoint-url "$ENDPOINT" s3 mb s3://timeless-local-assets
+aws --endpoint-url "$ENDPOINT" s3api head-bucket --bucket tallyo-local-assets 2>/dev/null \
+  || aws --endpoint-url "$ENDPOINT" s3 mb s3://tallyo-local-assets

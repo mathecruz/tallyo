@@ -1,4 +1,4 @@
-name: Timeless CI - Detect Changed Paths
+name: Tallyo CI - Detect Changed Paths
 
 on:
   workflow_call:
@@ -27,6 +27,6 @@ jobs:
         with:
           filters: |
             api:
-              - 'timeless-api/**'
+              - 'tallyo-api/**'
             whatsapp:
               - 'whatsapp/**'

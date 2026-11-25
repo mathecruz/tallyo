@@ -1,8 +1,8 @@
 # If you've reached this document, it means you're interested in participating in the project.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mcruzdev/timeless)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mathecruz/tallyo)
 
-# Thank you for your interest in contributing to **TimeLess**! 🎉
+# Thank you for your interest in contributing to **Tallyo**! 🎉
 
 This document is a set of guidelines to help you contribute to this project. Feel free to suggest changes to this document in a Pull Request.
 
@@ -28,7 +28,7 @@ This project and all those who participate in it are governed by the [Code of Co
 
 ### Reporting Bugs
 
-Bugs are tracked as [GitHub Issues](https://github.com/mcruzdev/timeless/issues). When creating an issue, explain the problem and include additional details to help maintainers reproduce the issue:
+Bugs are tracked as [GitHub Issues](https://github.com/mathecruz/tallyo/issues). When creating an issue, explain the problem and include additional details to help maintainers reproduce the issue:
 
 - Use a clear and descriptive title.
 - Describe the exact steps to reproduce the problem.
@@ -37,7 +37,7 @@ Bugs are tracked as [GitHub Issues](https://github.com/mcruzdev/timeless/issues)
 
 ### Suggestions for Improvements
 
-Suggestions for improvements are also logged as [GitHub Issues](https://github.com/mcruzdev/timeless/issues).
+Suggestions for improvements are also logged as [GitHub Issues](https://github.com/mathecruz/tallyo/issues).
 
 - Use a clear and descriptive title.
 - Provide a step-by-step description of the suggested improvement.
@@ -72,19 +72,19 @@ This command will trigger the `impsort` and `formatter` plugins to ensure your i
 
 #### Frontend (Angular)
 
-Navigate to the frontend directory (`timeless-api/src/main/webui`) and run the code style check:
+Navigate to the frontend directory (`tallyo-api/src/main/webui`) and run the code style check:
 
 ```bash
-cd timeless-api/src/main/webui
+cd tallyo-api/src/main/webui
 npm run prettier:write
 ```
 
 #### Whatsapp
 
-Navigate to the directory (`timeless/whatsapp`) and run the code style check:
+Navigate to the directory (`tallyo/whatsapp`) and run the code style check:
 
 ```bash
-cd timeless/whatsapp
+cd tallyo/whatsapp
 ```
 And run the code style check:
 
@@ -109,8 +109,8 @@ To run this project, you will need:
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-github-profile/timeless
-cd timeless
+git clone https://github.com/your-github-profile/tallyo
+cd tallyo
 ```
 
 ### Running the Project
