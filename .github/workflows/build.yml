@@ -14,6 +14,11 @@ on:
       - 'whatsapp/**'
       - 'infrastructure/**'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image version (semver, e.g. 1.0.0, 2.0.0-SNAPSHOT, 1.0.0-alpha.1)'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -29,9 +34,31 @@ jobs:
   detect-changes:
     uses: ./.github/workflows/detect_changes.yml
 
+  version:
+    name: Resolve image version
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.resolve.outputs.tag }}
+    steps:
+      - name: Validate and resolve version
+        id: resolve
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -z "$INPUT_VERSION" ]; then
+            echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          SEMVER='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*))*))?$'
+          if ! [[ "$INPUT_VERSION" =~ $SEMVER ]]; then
+            echo "::error::'$INPUT_VERSION' is not a valid semver version"
+            exit 1
+          fi
+          echo "tag=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
+
   tallyo-api:
     name: Build & Publish - Tallyo API (Java)
-    needs: detect-changes
+    needs: [detect-changes, version]
     if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     defaults:
@@ -78,15 +105,15 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-api .
+        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/mathecruz/tallyo:${{ needs.version.outputs.tag }}-api .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-api
+        run: docker push quay.io/mathecruz/tallyo:${{ needs.version.outputs.tag }}-api
 
   whatsapp:
     name: Build & Publish - WhatsApp Bot (Node.js)
-    needs: detect-changes
+    needs: [detect-changes, version]
     if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.whatsapp == 'true'
     runs-on: ubuntu-latest
     defaults:
@@ -120,8 +147,8 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f Dockerfile -t quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-bot .
+        run: docker build -f Dockerfile -t quay.io/mathecruz/tallyo:${{ needs.version.outputs.tag }}-bot .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-bot
+        run: docker push quay.io/mathecruz/tallyo:${{ needs.version.outputs.tag }}-bot
