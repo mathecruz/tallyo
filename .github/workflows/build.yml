@@ -13,6 +13,7 @@ on:
       - 'tallyo-api/**'
       - 'whatsapp/**'
       - 'infrastructure/**'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -22,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PUBLISH: ${{ github.repository == 'mathecruz/tallyo' && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+  PUBLISH: ${{ github.repository == 'mathecruz/tallyo' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
 
 jobs:
   detect-changes:
@@ -31,7 +32,7 @@ jobs:
   tallyo-api:
     name: Build & Publish - Tallyo API (Java)
     needs: detect-changes
-    if: needs.detect-changes.outputs.api == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -86,7 +87,7 @@ jobs:
   whatsapp:
     name: Build & Publish - WhatsApp Bot (Node.js)
     needs: detect-changes
-    if: needs.detect-changes.outputs.whatsapp == 'true'
+    if: github.event_name == 'workflow_dispatch' || needs.detect-changes.outputs.whatsapp == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
