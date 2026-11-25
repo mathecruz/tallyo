@@ -1,15 +1,14 @@
-<h1 class="text-xl font-thin my-2">
-  Olá, bem-vindo(a) ao <span class="font-bold">Tallyo</span> 🕰
-</h1>
+<h1 class="text-xl font-semibold mb-1 text-center">Que bom ver você</h1>
+<p class="text-sm text-center mb-6">Entre para acompanhar suas finanças.</p>
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="flex flex-col w-[300px] gap-2"
+  class="flex flex-col w-full gap-3"
 >
   <p-float-label variant="in">
     <input
       id="email"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="text"
       pSize="small"
       pInputText
@@ -21,7 +20,7 @@
   <p-float-label variant="in">
     <input
       id="password"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="password"
       pSize="small"
       pInputText
@@ -37,7 +36,7 @@
     size="small"
     type="submit"
   ></p-button>
-  <p class="text-xs text-center font-extralight">
+  <p class="text-sm text-center mt-2">
     Não possui uma conta? Crie uma
     <a [routerLink]="['sign-up']" class="primary-emphasis font-normal">aqui</a>.
   </p>

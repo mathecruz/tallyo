@@ -1,16 +1,15 @@
-<h1 class="text-xl font-thin my-2 text-center">
-  Olá, <span class="font-bold">Tallyo</span> 🕰
-</h1>
+<h1 class="text-xl font-semibold mb-1 text-center">Crie sua conta</h1>
+<p class="text-sm text-center mb-6">Leva menos de um minuto.</p>
 
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="flex flex-col w-[300px] gap-2"
+  class="flex flex-col w-full gap-3"
 >
   <p-float-label variant="in">
     <input
       id="first_name"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="text"
       pSize="small"
       pInputText
@@ -22,7 +21,7 @@
   <p-float-label variant="in">
     <input
       id="last_name"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="text"
       pSize="small"
       pInputText
@@ -34,7 +33,7 @@
   <p-float-label variant="in">
     <input
       id="email"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="text"
       pSize="small"
       pInputText
@@ -46,7 +45,7 @@
   <p-float-label variant="in">
     <p-inputMask
       id="phone_number"
-      styleClass="w-full text-center font-medium"
+      styleClass="w-full"
       size="small"
       mask="(99) 99999-9999"
       formControlName="phoneNumber"
@@ -57,7 +56,7 @@
   <p-float-label variant="in">
     <input
       id="password"
-      class="w-full text-center font-medium"
+      class="w-full"
       type="password"
       pSize="small"
       pInputText
@@ -75,7 +74,7 @@
     [loading]="submitting"
     [disabled]="submitting"
   ></p-button>
-  <p class="text-xs text-center font-extralight">
+  <p class="text-sm text-center mt-2">
     Já possui uma conta? Clique
     <a [routerLink]="['']" class="primary-emphasis font-normal">aqui</a>
     para acessar.
