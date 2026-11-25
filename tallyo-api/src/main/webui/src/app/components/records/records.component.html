@@ -78,8 +78,17 @@
           [severity]="record.transaction == 'IN' ? 'success' : 'danger'"
         ></p-tag>
       </td>
-      <td class="text-sm">{{ record.createdAt }}</td>
       <td class="text-sm">
+        {{ record.transactionDate | date: "dd/MM/yyyy" }}
+      </td>
+      <td class="text-sm whitespace-nowrap">
+        <p-button
+          icon="pi pi-pencil"
+          ariaLabel="Editar"
+          [rounded]="true"
+          [text]="true"
+          (click)="editRecord(record)"
+        />
         <p-button
           icon="pi pi-trash"
           [rounded]="true"
@@ -97,3 +106,119 @@
   [totalRecords]="totalRecords()"
   [rowsPerPageOptions]="[10, 20, 30]"
 />
+
+<p-dialog
+  header="Editar registro"
+  [modal]="true"
+  [visible]="editDialogVisible()"
+  (visibleChange)="editDialogVisible.set($event)"
+  [style]="{ width: '28rem' }"
+  [breakpoints]="{ '640px': '95vw' }"
+>
+  <form
+    [formGroup]="editForm"
+    (ngSubmit)="saveRecord()"
+    class="flex flex-col gap-4"
+  >
+    <div class="flex flex-col">
+      <label for="amount" class="text-sm font-medium text-brand-navy mb-1"
+        >Valor</label
+      >
+      <p-inputnumber
+        inputId="amount"
+        formControlName="amount"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        [min]="0"
+        size="small"
+        styleClass="w-full"
+        inputStyleClass="w-full"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="description" class="text-sm font-medium text-brand-navy mb-1"
+        >Descrição</label
+      >
+      <input
+        pInputText
+        pSize="small"
+        id="description"
+        formControlName="description"
+        class="w-full"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label for="transaction" class="text-sm font-medium text-brand-navy mb-1"
+        >Tipo</label
+      >
+      <p-select
+        inputId="transaction"
+        formControlName="transaction"
+        [options]="transactionOptions"
+        optionLabel="label"
+        optionValue="value"
+        size="small"
+        appendTo="body"
+        styleClass="w-full"
+      />
+    </div>
+
+    @if (editForm.controls.transaction.value === "OUT") {
+      <div class="flex flex-col">
+        <label for="category" class="text-sm font-medium text-brand-navy mb-1"
+          >Categoria</label
+        >
+        <p-select
+          inputId="category"
+          formControlName="category"
+          [options]="categoryOptions"
+          optionLabel="label"
+          optionValue="value"
+          size="small"
+          appendTo="body"
+          styleClass="w-full"
+        />
+      </div>
+    }
+
+    <div class="flex flex-col">
+      <label
+        for="transactionDate"
+        class="text-sm font-medium text-brand-navy mb-1"
+        >Data</label
+      >
+      <p-datepicker
+        inputId="transactionDate"
+        formControlName="transactionDate"
+        dateFormat="dd/mm/yy"
+        size="small"
+        appendTo="body"
+        [showIcon]="true"
+        styleClass="w-full"
+        inputStyleClass="w-full"
+      />
+    </div>
+
+    <div class="flex gap-2 justify-end mt-2">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        size="small"
+        type="button"
+        [text]="true"
+        (click)="editDialogVisible.set(false)"
+      />
+      <p-button
+        label="Salvar"
+        icon="pi pi-save"
+        size="small"
+        type="submit"
+        [loading]="saving()"
+        [disabled]="editForm.invalid"
+      />
+    </div>
+  </form>
+</p-dialog>
