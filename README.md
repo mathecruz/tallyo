@@ -1,16 +1,16 @@
-# 🕰️ Timeless
+# 🕰️ Tallyo
 
-Do you often make purchases and forget to write them down? **Timeless** is a project designed to help you by automatically detecting purchase-related messages on WhatsApp and registering that data in the **Timeless** app — your personal financial organization hub.
+Do you often make purchases and forget to write them down? **Tallyo** is a project designed to help you by automatically detecting purchase-related messages on WhatsApp and registering that data in the **Tallyo** app — your personal financial organization hub.
 
-See our landing page: [**https://timeless.platformoon.com**](https://timeless.platformoon.com)
+See our landing page: [**https://tallyo.platformoon.com**](https://tallyo.platformoon.com)
 
 ## ✨ Overview
 
-This application monitors WhatsApp messages for signs of purchases (such as receipts, audio messages, transfers), extracts relevant information (amounts, descriptions), and automatically sends it to **Timeless**, helping you keep your finances organized — effortlessly.
+This application monitors WhatsApp messages for signs of purchases (such as receipts, audio messages, transfers), extracts relevant information (amounts, descriptions), and automatically sends it to **Tallyo**, helping you keep your finances organized — effortlessly.
 
 ## ⚠️ Project Intent
 
-Timeless is primarily an educational project built to explore the intersection of automated messaging, NLP, and cloud infrastructure. While it mimics real-world financial tracking systems, its core goal is to demonstrate:
+Tallyo is primarily an educational project built to explore the intersection of automated messaging, NLP, and cloud infrastructure. While it mimics real-world financial tracking systems, its core goal is to demonstrate:
 
 * **Production-like Architecture**: Integrating Java/Quarkus with AI and external messaging APIs.
 * **Continuous Improvement**: The codebase is designed to evolve. We encourage experiments with local LLMs and different cloud providers.
@@ -24,18 +24,18 @@ We love community contributions! Whether you're fixing a bug or adding a feature
 
 * AI-Powered Insights: For a high-level overview of the codebase, you can explore the project via DeepWiki: 
 
-   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mcruzdev/timeless)
+   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/mathecruz/tallyo)
 
 
 ## 🚀 Features
 
 - 📩 Automatic reading of WhatsApp messages
 - 🧠 Smart extraction of purchase data using NLP (Natural Language Processing)
-- 📤 Automatic registration of purchases in Timeless (via API)
+- 📤 Automatic registration of purchases in Tallyo (via API)
 
 ## 🛠️ Technologies Used
 
-- **Java + Quarkus** (timeless-api)
+- **Java + Quarkus** (tallyo-api)
 - **Quinoa + Angular** (frontend)
 - **Langchain4j + OpenAI Whisper** (audio transcription and analysis)
 - **NodeJS + whatsapp-web.js** (whatsapp)
@@ -77,16 +77,16 @@ against a local LLM without Quarkus Dev Services:
 docker-compose --profile ollama up -d
 ```
 
-### Execute the timeless-api 
+### Execute the tallyo-api 
 Run using OpenAI or Ollama.
 
 #### Using OpenAPI
 
 > [!NOTE]
-> Before you start, make sure to fill the `quarkus.langchain4j.openai.api-key` and `quarkus.langchain4j.openai.gpt-4-turbo.api-key` variables in the `timeless/src/main/resources/application.properties` file.
+> Before you start, make sure to fill the `quarkus.langchain4j.openai.api-key` and `quarkus.langchain4j.openai.gpt-4-turbo.api-key` variables in the `tallyo/src/main/resources/application.properties` file.
 
 
-1. Go to `timeless-api` directory and execute:
+1. Go to `tallyo-api` directory and execute:
 
 ```shell
 ./mvnw quarkus:dev
@@ -103,7 +103,7 @@ Run using OpenAI or Ollama.
 > Start the Ollama container first with `docker-compose --profile ollama up -d`
 > (the default `docker-compose up -d` no longer starts it).
 
-1. Go to `timeless-api` directory and execute:
+1. Go to `tallyo-api` directory and execute:
 
 ```shell
 ./mvnw quarkus:dev -Pollama -Dquarkus.profile=local

@@ -40,12 +40,12 @@ terraform apply -auto-approve
 
 If you want, execute a `terraform plan` before.
 
-## Configuring timeless-api (backend application)
+## Configuring tallyo-api (backend application)
 
-1. Go to timeless-api directory
+1. Go to tallyo-api directory
 
 ```shell
-cd timeless-api
+cd tallyo-api
 ```
 
 2. Create a `.env` file
