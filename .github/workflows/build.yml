@@ -77,11 +77,11 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/mathecruz/tallyo-api:${GITHUB_SHA::7} .
+        run: docker build -f src/main/docker/Dockerfile.jvm -t quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-api .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/mathecruz/tallyo-api:${GITHUB_SHA::7}
+        run: docker push quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-api
 
   whatsapp:
     name: Build & Publish - WhatsApp Bot (Node.js)
@@ -119,8 +119,8 @@ jobs:
 
       - name: Create Docker image
         if: env.PUBLISH == 'true'
-        run: docker build -f Dockerfile -t quay.io/mathecruz/tallyo-bot:${GITHUB_SHA::7} .
+        run: docker build -f Dockerfile -t quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-bot .
 
       - name: Push Docker image to Quay.io
         if: env.PUBLISH == 'true'
-        run: docker push quay.io/mathecruz/tallyo-bot:${GITHUB_SHA::7}
+        run: docker push quay.io/mathecruz/tallyo:${GITHUB_SHA::7}-bot
