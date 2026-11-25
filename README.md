@@ -4,6 +4,9 @@
 
 # Tallyo
 
+[![Tallyo CI - Build & Publish](https://github.com/mathecruz/tallyo/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/mathecruz/tallyo/actions/workflows/build.yml)
+[![Tallyo CI - Publish Landing Page to Amazon S3](https://github.com/mathecruz/tallyo/actions/workflows/landing_page.yaml/badge.svg?branch=main)](https://github.com/mathecruz/tallyo/actions/workflows/landing_page.yaml)
+
 Do you often make purchases and forget to write them down? **Tallyo** is a project designed to help you by automatically detecting purchase-related messages on WhatsApp and registering that data in the **Tallyo** app — your personal financial organization hub.
 
 See our landing page: [**https://tallyo.platformoon.com**](https://tallyo.platformoon.com)
