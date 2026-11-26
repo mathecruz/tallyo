@@ -9,22 +9,25 @@ import dev.matheuscruz.domain.UserRepository;
 import dev.matheuscruz.presentation.data.CreateRecordRequest;
 import dev.matheuscruz.presentation.data.PageRecord;
 import dev.matheuscruz.presentation.data.RecordItemResponse;
+import dev.matheuscruz.presentation.data.UpdateRecordRequest;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Parameters;
 import io.quarkus.security.Authenticated;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.ForbiddenException;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +61,19 @@ public class RecordResource {
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @Transactional
+    public Response update(@PathParam("id") Long id, @Valid UpdateRecordRequest req) {
+        Record record = recordRepository
+                .find("id = :id AND userId = :userId", Parameters.with("id", id).and("userId", upn))
+                .firstResultOptional().orElseThrow(NotFoundException::new);
+
+        record.update(req.amount(), req.description(), req.transaction(), req.category(), req.transactionDate());
+
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
+
     @POST
     public Response createRecord(@Valid CreateRecordRequest req) {
 
@@ -85,10 +101,10 @@ public class RecordResource {
         // pagination
         List<RecordItemResponse> output = recordRepository.find("userId = :userId", Parameters.with("userId", upn))
                 .page(Page.of(page, limit)).list().stream().map(record -> {
-                    String format = record.getCreatedAt().atZone(ZoneId.of("America/Sao_Paulo")).toLocalDate()
-                            .format(formatter);
+                    String format = record.getCreatedAt().atZone(Record.ZONE).toLocalDate().format(formatter);
                     return new RecordItemResponse(record.getId(), record.getAmount(), record.getDescription(),
-                            record.getTransaction().name(), format, record.getCategory().name());
+                            record.getTransaction().name(), format, record.getCategory().name(),
+                            record.getTransactionDate());
                 }).toList();
 
         // calculate total expenses and total in

@@ -54,6 +54,10 @@ export class TallyoApiService {
     return this.httpClient.get(`/api/users/${user.id}`);
   }
 
+  updateRecord(id: number, record: UpdateRecord) {
+    return this.httpClient.put(`/api/records/${id}`, record);
+  }
+
   deleteRecord(id: number) {
     return this.httpClient.delete(`/api/records/${id}`);
   }
@@ -74,11 +78,36 @@ export interface RecordPageResponse {
   totalExpenses: number;
 }
 
+export type Transaction = 'IN' | 'OUT';
+
+export type Category =
+  | 'FIXED_COSTS'
+  | 'PLEASURES'
+  | 'KNOWLEDGE'
+  | 'GOALS'
+  | 'COMFORT'
+  | 'FINANCIAL_FREEDOM'
+  | 'NONE'
+  | 'GENERAL';
+
 export interface RecordResponseItem {
+  id: number;
   amount: number;
   description: string;
-  transaction: string;
+  transaction: Transaction;
+  category: Category;
   createdAt: string;
+  /** ISO date (yyyy-MM-dd) */
+  transactionDate: string;
+}
+
+export interface UpdateRecord {
+  amount: number;
+  description: string;
+  transaction: Transaction;
+  category: Category | null;
+  /** ISO date (yyyy-MM-dd) */
+  transactionDate: string;
 }
 
 export interface UpdateUser {
